@@ -114,7 +114,7 @@ bool ImportKeysDialog::importKey()
     if (pwalletMain->HaveKey(vchAddress)) {
         vchSecret.SetString("");
         ui->privateKeyImportTextMessage->setText(
-            tr("Invalid address generated from private key; please check and try again!"
+            tr("The private key has already been imported or an address associated with it already exists in the wallet."
         ));
         return false;
     }

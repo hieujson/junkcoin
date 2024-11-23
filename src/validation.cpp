@@ -2220,22 +2220,6 @@ void static UpdateTip(CBlockIndex *pindexNew, const CChainParams& chainParams) {
     {
         int nUpgraded = 0;
         const CBlockIndex* pindex = chainActive.Tip();
-        for (int bit = 0; bit < VERSIONBITS_NUM_BITS; bit++) {
-            WarningBitsConditionChecker checker(bit);
-            ThresholdState state = checker.GetStateFor(pindex, chainParams.GetConsensus(pindex->nHeight), warningcache[bit]);
-            if (state == THRESHOLD_ACTIVE || state == THRESHOLD_LOCKED_IN) {
-                if (state == THRESHOLD_ACTIVE) {
-                    std::string strWarning = strprintf(_("Warning: unknown new rules activated (versionbit %i)"), bit);
-                    SetMiscWarning(strWarning);
-                    if (!fWarned) {
-                        AlertNotify(strWarning);
-                        fWarned = true;
-                    }
-                } else {
-                    warningMessages.push_back(strprintf("unknown new rules are about to activate (versionbit %i)", bit));
-                }
-            }
-        }
         // Check the version of the last 100 blocks to see if we need to upgrade:
         for (int i = 0; i < 100 && pindex != NULL; i++)
         {
@@ -3128,6 +3112,7 @@ bool ContextualCheckBlockHeader(const CBlockHeader& block, CValidationState& sta
     // junkcoin: Disallow AuxPow blocks before it is activated.
     // TODO: Remove this test, as checkpoints will enforce this for us now
     // NOTE: Previously this had its own fAllowAuxPoW flag, but that's always the opposite of fAllowLegacyBlocks
+    if (consensusParams.AllowLegacyBlocks(nHeight)
     if (consensusParams.AllowLegacyBlocks(nHeight)
         && block.IsAuxpow())
         return state.DoS(100, error("%s : auxpow blocks are not allowed at height %d, parameters effective from %d",

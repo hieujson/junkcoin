@@ -212,8 +212,8 @@ BOOST_AUTO_TEST_CASE(get_next_work_digishield_rounding)
 BOOST_AUTO_TEST_CASE(hardfork_parameters)
 {
     SelectParams(CBaseChainParams::MAIN);
-    const Consensus::Params& initialParams = Params().GetConsensus(0);
 
+    const Consensus::Params& initialParams = Params().GetConsensus(0);
     BOOST_CHECK_EQUAL(initialParams.nPowTargetTimespan, 14400);
     BOOST_CHECK_EQUAL(initialParams.AllowLegacyBlocks(0), true); // Always true because nLegacyBlocksBefore is -1 by default
     BOOST_CHECK_EQUAL(initialParams.fDigishieldDifficultyCalculation, false);
@@ -237,10 +237,12 @@ BOOST_AUTO_TEST_CASE(hardfork_parameters)
     BOOST_CHECK_EQUAL(auxpowParams.nHeightEffective, 371337);
     BOOST_CHECK_EQUAL(auxpowParams.nPowTargetTimespan, 60);
     BOOST_CHECK_EQUAL(auxpowParams.AllowLegacyBlocks(371337), true); // Always true because nLegacyBlocksBefore is -1 by default
+    BOOST_CHECK_EQUAL(auxpowParams.AllowLegacyBlocks(371337), true); // Always true because nLegacyBlocksBefore is -1 by default
     BOOST_CHECK_EQUAL(auxpowParams.fDigishieldDifficultyCalculation, true);
 
     const Consensus::Params& auxpowHighParams = Params().GetConsensus(700000); // Arbitrary point after last hard-fork
     BOOST_CHECK_EQUAL(auxpowHighParams.nPowTargetTimespan, 60);
+    BOOST_CHECK_EQUAL(auxpowHighParams.AllowLegacyBlocks(700000), true); // Always true because nLegacyBlocksBefore is -1 by default
     BOOST_CHECK_EQUAL(auxpowHighParams.AllowLegacyBlocks(700000), true); // Always true because nLegacyBlocksBefore is -1 by default
     BOOST_CHECK_EQUAL(auxpowHighParams.fDigishieldDifficultyCalculation, true);
 }

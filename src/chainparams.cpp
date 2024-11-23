@@ -235,6 +235,7 @@ public:
                 ( 168312, uint256S("0xdeea2bcecb1146ae9cd74d67b29b4d0161e9bb63beb9022ca10f3625dda6c0e6"))
         };
 
+
         chainTxData = ChainTxData{
                 // Data as of block ed7d266dcbd8bb8af80f9ccb8deb3e18f9cc3f6972912680feeb37b090f8cee0 (height 4303965).
                 // Tx estimate based on average between 2021-07-01 (3793538) and 2022-07-01 (4287924154aa896363ec9be3ca5f939602f72cf4a5396e6e1cd9139335dd18194878126)
@@ -525,8 +526,8 @@ public:
         digishieldConsensus.hashGenesisBlock = consensus.hashGenesisBlock;
         auxpowConsensus.hashGenesisBlock = consensus.hashGenesisBlock;
 
-        //assert(consensus.hashGenesisBlock == uint256S("0x324635c8e36f663b0adb126a21ad0bd7fa43cc5c5f15aec992bf4dde650bc0ea"));
-        //assert(genesis.hashMerkleRoot == uint256S("0x6f80efd038566e1e3eab3e1d38131604d06481e77f2462235c6a9a94b1f8abf9"));
+        assert(consensus.hashGenesisBlock == uint256S("0xa2effa738145e377e08a61d76179c21703e13e48910b30a2a87f0dfe794b64c6"));
+        assert(genesis.hashMerkleRoot == uint256S("0x3de124b0274307911fe12550e96bf76cb92c12835db6cb19f82658b8aca1dbc8"));
 
         // nodes with support for servicebits filtering should be at the top
         //vSeeds.push_back(CDNSSeedData("belscan.io", "testnetseed.belscan.io", true));
