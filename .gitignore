@@ -130,3 +130,6 @@ stage/
 *.ipr
 src/junkcoin-cli
 src/junkcoin-cli
+junkcoin_child
+junkcoin_parent
+configure~

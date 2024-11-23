@@ -132,9 +132,9 @@ public:
 
         // AuxPoW parameters
         consensus.nAuxpowChainId = 0x2020;
-        consensus.fStrictChainId = false;  // we set this to false as block is nonAuxPow
-
-        consensus.fAllowLegacyBlocks = true;
+        consensus.nAuxpowStartHeight = 175000; // TODO: Change this to the correct height
+        consensus.nBlockAfterAuxpowRewardThreshold = 5;
+        consensus.fStrictChainId = true;
 
         // We do not activate digishield in this consensus
         digishieldConsensus = consensus;
@@ -155,7 +155,6 @@ public:
         // Not implementing AuxPow hardfork yet
         auxpowConsensus = digishieldConsensus;
         auxpowConsensus.nHeightEffective = std::numeric_limits<uint32_t>::max();
-        auxpowConsensus.fAllowLegacyBlocks = true;
 
         // Assemble the binary search tree of consensus parameters
         pConsensusRoot = &digishieldConsensus;
@@ -216,8 +215,23 @@ public:
 
         checkpointData = (CCheckpointData) {
                 boost::assign::map_list_of
-                (      0, uint256S("0xa2effa738145e377e08a61d76179c21703e13e48910b30a2a87f0dfe794b64c6"))
+                        (      0, uint256S("0xa2effa738145e377e08a61d76179c21703e13e48910b30a2a87f0dfe794b64c6"))
+                        (     1, uint256S("0xa2effa738145e377e08a61d76179c21703e13e48910b30a2a87f0dfe794b64c6"))
+                        (    50, uint256S("0xa2effa738145e377e08a61d76179c21703e13e48910b30a2a87f0dfe794b64c6"))
+                        (   117, uint256S("0x6cab49bd69fcce2bb48793cc064bb49e75f068e7029b5173db83654fbcb5953d"))
+                        (   200, uint256S("0x45257b0f2ee6d5c55ac16a76817d7151b776d6452ae6f21426eaa42345b831f8"))
+                        (  6452, uint256S("0x506562c2172d9f10e86d2b467ed3bb7b9eba40148d18d1e660c1ff692604f3fc"))
+                        ( 10978, uint256S("0x1c9f7f7a4702f8225df430b259ac58c387de99439be8a8789841a1c011ead7fc"))
+                        ( 17954, uint256S("0x6036051659e92a17cb7488040e05a94483b7a7f88b184156c136d51ff0390a7d"))
+                        ( 23978, uint256S("0x7924154aa896363ec9be3ca5f939602f72cf4a5396e6e1cd9139335dd1819487"))
+                        ( 33212, uint256S("0x448040ac454da8654d9c58ad79386aa1a88fd113be0fcc5ca39ecd3eae8c8618"))
+                        ( 45527, uint256S("0xf2420d964001d4d2c8bc0d9283f3f684d4d91a509a50985888458a68e08e1c82"))
+                        ( 57484, uint256S("0xc3e95c6fb35f4b39006c89538415b4f50a253a3ac1cad0e583fb287f6bd91be1"))
+                        ( 69240, uint256S("0xc34f5d113fe92f3206ef8855caf51cd6252286e3381b253bbc1237211198c22b"))
+                        ( 73892, uint256S("0xd05129c2d9f3e99565bf84fbceabbc61728e4d644173e194823b639f7c406b04"))
+                        ( 170000, uint256S("0x19b428cbdd3fea785b840bcaf95732f48741f2db2726d15afbc12483dd11ceb8"))
         };
+
 
         chainTxData = ChainTxData{
                 // Data as of block ed7d266dcbd8bb8af80f9ccb8deb3e18f9cc3f6972912680feeb37b090f8cee0 (height 4303965).
@@ -303,8 +317,10 @@ public:
 
         // AuxPoW parameters
         consensus.nAuxpowChainId = 0x0062; // 98 - Josh Wise!
+        consensus.nAuxpowStartHeight = 0; // TODO: Change this to the correct height
+        consensus.nBlockAfterAuxpowRewardThreshold = 5;
         consensus.fStrictChainId = true;
-        consensus.fAllowLegacyBlocks = true;
+
 
         // We do not activate digishield in this consensus
         digishieldConsensus = consensus;
@@ -325,7 +341,6 @@ public:
         // Not implementing AuxPow hardfork yet
         auxpowConsensus = digishieldConsensus;
         auxpowConsensus.nHeightEffective = std::numeric_limits<uint32_t>::max();
-        auxpowConsensus.fAllowLegacyBlocks = true;
 
         // Assemble the binary search tree of consensus parameters
         pConsensusRoot = &digishieldConsensus;
@@ -346,8 +361,8 @@ public:
         digishieldConsensus.hashGenesisBlock = consensus.hashGenesisBlock;
         auxpowConsensus.hashGenesisBlock = consensus.hashGenesisBlock;
 
-        //assert(consensus.hashGenesisBlock == uint256S("0x324635c8e36f663b0adb126a21ad0bd7fa43cc5c5f15aec992bf4dde650bc0ea"));
-        //assert(genesis.hashMerkleRoot == uint256S("0x6f80efd038566e1e3eab3e1d38131604d06481e77f2462235c6a9a94b1f8abf9"));
+        assert(consensus.hashGenesisBlock == uint256S("0xa2effa738145e377e08a61d76179c21703e13e48910b30a2a87f0dfe794b64c6"));
+        assert(genesis.hashMerkleRoot == uint256S("0x3de124b0274307911fe12550e96bf76cb92c12835db6cb19f82658b8aca1dbc8"));
 
         // nodes with support for servicebits filtering should be at the top
         //vSeeds.push_back(CDNSSeedData("belscan.io", "testnetseed.belscan.io", true));
@@ -455,9 +470,10 @@ public:
         consensus.defaultAssumeValid = uint256S("0x2c05ea6918e28ca2d216c6518940c8782c09bebfe705d792155465662e275351"); // 10000
 
         // AuxPoW parameters
-        consensus.nAuxpowChainId = 0x0062; // 98 - Josh Wise!
+        consensus.nAuxpowChainId = 0x0062;
+        consensus.nAuxpowStartHeight = 0; // TODO: Change this to the correct height
+        consensus.nBlockAfterAuxpowRewardThreshold = 5;
         consensus.fStrictChainId = true;
-        consensus.fAllowLegacyBlocks = true;
 
         // We do not activate digishield in this consensus
         digishieldConsensus = consensus;
@@ -478,7 +494,6 @@ public:
         // Not implementing AuxPow hardfork yet
         auxpowConsensus = digishieldConsensus;
         auxpowConsensus.nHeightEffective = std::numeric_limits<uint32_t>::max();
-        auxpowConsensus.fAllowLegacyBlocks = false;
 
         // Assemble the binary search tree of consensus parameters
         pConsensusRoot = &digishieldConsensus;
@@ -503,8 +518,8 @@ public:
         digishieldConsensus.hashGenesisBlock = consensus.hashGenesisBlock;
         auxpowConsensus.hashGenesisBlock = consensus.hashGenesisBlock;
 
-        //assert(consensus.hashGenesisBlock == uint256S("0x324635c8e36f663b0adb126a21ad0bd7fa43cc5c5f15aec992bf4dde650bc0ea"));
-        //assert(genesis.hashMerkleRoot == uint256S("0x6f80efd038566e1e3eab3e1d38131604d06481e77f2462235c6a9a94b1f8abf9"));
+        assert(consensus.hashGenesisBlock == uint256S("0xa2effa738145e377e08a61d76179c21703e13e48910b30a2a87f0dfe794b64c6"));
+        assert(genesis.hashMerkleRoot == uint256S("0x3de124b0274307911fe12550e96bf76cb92c12835db6cb19f82658b8aca1dbc8"));
 
         // nodes with support for servicebits filtering should be at the top
         //vSeeds.push_back(CDNSSeedData("belscan.io", "testnetseed.belscan.io", true));
