@@ -84,8 +84,6 @@ struct Params {
     int32_t nAuxpowChainId;
     int nAuxpowStartHeight;
     int nBlockAfterAuxpowRewardThreshold;
-    int nAuxpowStartHeight;
-    int nBlockAfterAuxpowRewardThreshold;
     bool fStrictChainId;
     //bool fAllowLegacyBlocks;
     int nLegacyBlocksBefore; // -1 for "always allow"
